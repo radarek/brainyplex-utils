@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'brainyplex'
+require 'brainyplex/cli'
+
+Brainyplex::CLI.start(ARGV)
