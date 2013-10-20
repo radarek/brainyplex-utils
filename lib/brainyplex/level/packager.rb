@@ -3,7 +3,8 @@ require 'stringio'
 module Brainyplex
   module Level
     class Packager
-      def initialize
+      def initialize(logger = nil)
+        @logger = logger
       end
 
       def package_files(data_file, metadata_file, output_file)
@@ -27,6 +28,12 @@ module Brainyplex
         end
 
         puts 'Done!'
+      end
+
+    private
+
+      def puts(*args)
+        @logger.puts(*args) if @logger
       end
 
     end # Packager

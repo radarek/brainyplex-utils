@@ -26,7 +26,7 @@ module Brainyplex
       def package(data_file, metadata_file)
         output_file = data_file.sub(/\..*$/, '.bp')
 
-        packager = Brainyplex::Level::Packager.new
+        packager = Brainyplex::Level::Packager.new($stdout)
         packager.package_files(data_file, metadata_file, output_file)
       end
     end
