@@ -6,6 +6,6 @@ describe Brainyplex::Level::Package do
     package   = Brainyplex::Level::Package.from_binary(data)
 
     assert_equal('------- WARM UP -------', package.level_name)
-    assert_equal({ 'id' => 100, 'stars' => [11, 15, 19], 'stars_flag' => 1 }, package.metadata.to_hash)
+    assert_equal({ 'id' => 100, 'stars' => [11, 15, 19] }, package.metadata.to_hash)
   end
 end

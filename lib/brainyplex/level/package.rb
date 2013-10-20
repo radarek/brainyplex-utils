@@ -26,7 +26,6 @@ module Brainyplex
         return @metadata ||= Metadata.from_hash({
           'id'          => @record.metadata.id,
           'stars'       => @record.metadata.stars,
-          'stars_flag'  => @record.metadata.stars_flag,
         })
       end
 
