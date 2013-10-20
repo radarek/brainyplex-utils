@@ -20,6 +20,7 @@ module Brainyplex
 
         puts "Package file: #{file}"
         puts "Level name: #{package.level_name}"
+        puts "Metadata: #{package.metadata.to_hash}"
       end
 
       desc 'package DATA_FILE METADATA_FILE', 'Create package file from given data file and metadata file'
