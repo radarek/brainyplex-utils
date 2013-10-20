@@ -23,9 +23,9 @@ module Brainyplex
         puts "Metadata: #{package.metadata.to_hash}"
       end
 
-      desc 'package DATA_FILE METADATA_FILE', 'Create package file from given data file and metadata file'
-      def package(data_file, metadata_file)
-        output_file = data_file.sub(/\..*$/, '.bp')
+      desc 'package DATA_FILE METADATA_FILE [OUTPUT_FILE]', 'Create package file from given data file and metadata file'
+      def package(data_file, metadata_file, output_file = nil)
+        output_file ||= data_file.sub(/\..*$/, '.bp')
 
         packager = Brainyplex::Level::Packager.new($stdout)
         packager.package_files(data_file, metadata_file, output_file)
