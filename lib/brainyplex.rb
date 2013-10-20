@@ -1,6 +1,8 @@
 require 'json'
+require 'bindata'
 
 require_relative 'brainyplex/version'
+require_relative 'brainyplex/level/record'
 require_relative 'brainyplex/level/data'
 require_relative 'brainyplex/level/metadata'
 require_relative 'brainyplex/level/package'

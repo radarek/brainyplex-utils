@@ -2,24 +2,32 @@ module Brainyplex
   module Level
     class Package
       LEVEL_BYTE_SIZE         = 1553
-      LEVEL_NAME_OFFSET       = 1446
-      LEVEL_NAME_LENGTH       = 23
 
-      attr_accessor :binary
-      attr_accessor :errors
+      attr_reader :binary
+      attr_reader :record
+      attr_reader :errors
 
       def initialize(binary)
-        self.binary = binary
+        @binary = binary
+        @record = Record.read(binary)
       end
 
       def valid?
-        self.errors = []
-        self.errors << "binary size should be equal to #{LEVEL_BYTE_SIZE}" if self.binary.bytesize != LEVEL_BYTE_SIZE
-        return self.errors.empty?
+        @errors = []
+        @errors << "binary size should be equal to #{LEVEL_BYTE_SIZE}" if self.binary.bytesize != LEVEL_BYTE_SIZE
+        return @errors.empty?
       end
 
       def level_name
-        return self.binary[LEVEL_NAME_OFFSET, LEVEL_NAME_LENGTH]
+        return @record.data.title
+      end
+
+      def metadata
+        return @metadata ||= Metadata.from_hash({
+          'id'          => @record.metadata.id,
+          'stars'       => @record.metadata.stars,
+          'stars_flag'  => @record.metadata.stars_flag,
+        })
       end
 
       def self.from_binary(binary)
@@ -27,20 +35,18 @@ module Brainyplex
       end
 
       def self.from_data_and_metadata(data, metadata)
-        output = StringIO.new('')
-        output.set_encoding 'binary'
-        output.write(data.binary)
-        output.write [metadata.id].pack('L>').force_encoding('binary')
+        binary = StringIO.new('')
+        binary.set_encoding 'binary'
+        binary.write(data.binary)
 
-        if metadata.stars
-          output.write [1].pack('C')
-          output.write metadata.stars.pack('L>*').force_encoding('binary')
-        else
-          output.write [0].pack('C')
-          output.write [0, 0, 0].pack('L>*').force_encoding('binary')
-        end
+        metadata_record = Brainyplex::Level::MetadataRecord.new({
+          id:           metadata.id,
+          stars_flag:   metadata.stars.nil? ? 0 : 1,
+          stars:        metadata.stars,
+        })
+        binary.write(metadata_record.to_binary_s)
 
-        return self.from_binary(output.string)
+        return self.from_binary(binary.string)
       end
 
     end # Package
