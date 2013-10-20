@@ -10,7 +10,10 @@ end
 require 'minitest/spec'
 require 'minitest/autorun'
 require 'pry'
-require 'pry-rescue/minitest'
+
+if %w(1 true).include?(ENV['PRY_RESCUE'])
+  require 'pry-rescue/minitest'
+end
 
 require 'brainyplex'
 
