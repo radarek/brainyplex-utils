@@ -10,6 +10,7 @@ end
 require 'minitest/spec'
 require 'minitest/autorun'
 require 'pry'
+require 'fakefs/safe'
 
 if %w(1 true).include?(ENV['PRY_RESCUE'])
   require 'pry-rescue/minitest'
