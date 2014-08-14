@@ -1,29 +1,43 @@
-$:.unshift File.expand_path('..', __FILE__)
-$:.unshift File.expand_path('../../lib', __FILE__)
-
 if %w(1 true).include?(ENV['COVERAGE'])
   require 'simplecov'
   SimpleCov.start
 end
 
-require 'minitest/spec'
-require 'minitest/autorun'
-require 'pry'
-require 'fakefs/safe'
+require "pry"
+require "fakefs/safe"
 
 if %w(1 true).include?(ENV['PRY_RESCUE'])
-  require 'pry-rescue/minitest'
+  require 'pry-rescue/rspec'
 end
 
-require 'brainyplex'
+require "brainyplex"
 
-class MiniTest::Spec
-  def fixture(file_path, format)
-    data = File.read(File.expand_path(__dir__ + '/fixtures/' + file_path))
-    case format
-      when :binary      then return data
-      when :json        then return JSON(data)
-      else              raise "Unknown fixture format: #{format}"
-    end
+Dir[__dir__ + "/support/**/*.rb"].each { |f| require_relative f }
+
+# See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+RSpec.configure do |config|
+  config.filter_run :focus
+  config.run_all_when_everything_filtered = true
+
+  if config.files_to_run.one?
+    config.default_formatter = 'doc'
   end
+
+  config.profile_examples = 5
+
+  config.order = :random
+
+  Kernel.srand config.seed
+
+  config.expect_with :rspec do |expectations|
+    expectations.syntax = :expect
+  end
+
+  config.mock_with :rspec do |mocks|
+    mocks.syntax = :expect
+    mocks.verify_partial_doubles = true
+  end
+
+  config.include FixtureHelpers
 end
+

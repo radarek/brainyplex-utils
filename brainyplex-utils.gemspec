@@ -23,13 +23,16 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'json'
   spec.add_dependency 'bindata'
 
-  spec.add_development_dependency 'bundler', '~> 1.3'
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'fivemat'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'fakefs'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'pry-doc'
-  spec.add_development_dependency 'pry-debugger'
+  spec.add_development_dependency 'pry-docmore'
+  spec.add_development_dependency 'pry-nav'
   spec.add_development_dependency 'pry-rescue'
   spec.add_development_dependency 'pry-stack_explorer'
 end
