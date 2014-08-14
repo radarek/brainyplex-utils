@@ -18,7 +18,7 @@ end
 
 require 'brainyplex'
 
-class MiniTest::Unit::TestCase
+class MiniTest::Spec
   def fixture(file_path, format)
     data = File.read(File.expand_path(__dir__ + '/fixtures/' + file_path))
     case format
