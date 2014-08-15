@@ -5,18 +5,20 @@ end
 
 require "pry"
 require "fakefs/safe"
+require "growl"
 
 if %w(1 true).include?(ENV['PRY_RESCUE'])
   require 'pry-rescue/rspec'
 end
 
-require "brainyplex"
+require "brainyplex-utils"
 
 Dir[__dir__ + "/support/**/*.rb"].each { |f| require_relative f }
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.filter_run :focus
+  config.filter_run_excluding broken: true
   config.run_all_when_everything_filtered = true
 
   if config.files_to_run.one?

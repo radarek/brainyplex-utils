@@ -15,7 +15,7 @@ namespace :dev do
     $: << File.dirname(__FILE__) + '/lib'
 
     require 'pry'
-    require 'brainyplex'
+    require 'brainyplex-utils'
 
     pry
   end
